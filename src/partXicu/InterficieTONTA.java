@@ -7,18 +7,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class InterficieTONTA {
+public  class InterficieTONTA {
 
     public static void main(String[] args) {
 
         InterficieTONTA obj = new InterficieTONTA();
-        obj.run();
+        String csvFile1 = "fitxer_dades.csv";
+        obj.entregaLlista(csvFile1);
 
     }
 
-    public void run() {
+    public static ArrayList<Alumne> entregaLlista(String f1) {
 
-        String csvFile = "fitxer_dades.csv";
+        String csvFile = f1;
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",\"";
@@ -45,7 +46,9 @@ public class InterficieTONTA {
                     }
                 }
             }
-            System.out.println(llistatA.toString());
+            //System.out.println(llistatA.toString());
+                   
+           
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -63,14 +66,15 @@ public class InterficieTONTA {
             }
         }
         System.out.println("Done");
+        return llistatA;
     }
 
-    public String[] tallarNom(String cadenaNomCog) throws Exception {
+    public static String[] tallarNom(String cadenaNomCog) throws Exception {
         String[] splits = cadenaNomCog.split(",");
         return (splits);
     }
 
-    public ArrayList<String> tallarMateries(String cadenaMateries)
+    public static ArrayList<String> tallarMateries(String cadenaMateries)
             throws Exception {
 
         ArrayList<String> arrayL2 = new ArrayList<String>();
