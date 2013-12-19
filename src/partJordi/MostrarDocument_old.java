@@ -8,7 +8,9 @@ package partJordi;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -37,14 +39,13 @@ public class MostrarDocument_old extends javax.swing.JFrame {
     private void initComponents() {
 
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jTextField2.setText("jTextField2");
 
         jButton1.setText("Buscar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -60,6 +61,10 @@ public class MostrarDocument_old extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -74,9 +79,9 @@ public class MostrarDocument_old extends javax.swing.JFrame {
                         .addGap(79, 79, 79))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41))))
+                        .addGap(69, 69, 69)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,22 +90,37 @@ public class MostrarDocument_old extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         FileReader fr = null;
-          BufferedReader br = null;
-        JFileChooser triarArxiu = new JFileChooser();
-        int resultat = triarArxiu.showOpenDialog(this);
-        if(resultat == JFileChooser.APPROVE_OPTION){
+        FileReader fr = null;
+        BufferedReader br = null;
+        //creem un filtre dels documents per definir quins arxius veu el JFileChooser
+        javax.swing.filechooser.FileNameExtensionFilter filterCsv = new javax.swing.filechooser.FileNameExtensionFilter("Documentos MS Excel", "csv");
+        //
+        final JFileChooser triarArxiu = new JFileChooser();
+
+        //agregem el filtre al filechooser
+        triarArxiu.setFileFilter(filterCsv);
+        int returnVal = triarArxiu.showOpenDialog(null);
+
+        //definim el comportament de la finestra
+        triarArxiu.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File fileCsv = null;
+            fileCsv = triarArxiu.getSelectedFile();
             File arxiu = triarArxiu.getSelectedFile();
             jTextField1.setText(String.valueOf(arxiu));//Path del document
              try {
@@ -110,14 +130,16 @@ public class MostrarDocument_old extends javax.swing.JFrame {
                  Logger.getLogger(MostrarDocument_old.class.getName()).log(Level.SEVERE, null, ex);
              }
          br = new BufferedReader(fr);
-         // Lectura del fitxer
          String linia;
-             try {
-                 while((linia=br.readLine())!=null){
+         String a = "";
+         // Lectura del fitxer
+           try {
+                 while((linia = br.readLine())!=null){
+                      a += linia + "\n";
+                     jTextArea1.setText(a);
                      System.out.println(linia);
-                     jTextField2.setText(linia);
-                 }   } catch (IOException ex) {
-                 Logger.getLogger(MostrarDocument_old.class.getName()).log(Level.SEVERE, null, ex);
+                 }} catch (IOException ex) {
+                jTextArea1.append ("No s'ha trobat el document...");
              }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -161,7 +183,8 @@ public class MostrarDocument_old extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
