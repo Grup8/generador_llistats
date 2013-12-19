@@ -1,68 +1,88 @@
 package partXicu;
 
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 public class InterficieTONTA {
-public static void main(String[] args) {
 
-		// ("fitxer_dades.csv");
-		File arxiu1 = new File("C:\\Users\\DAM\\Documents\\NetBeansProjects\\generador_llistats\\fitxer_dades.csv");
-                //C:\Users\DAM\Documents\NetBeansProjects\generador_llistats\fitxer_dades.csv
-		try {
-			processarCSV(arxiu1);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    public static void main(String[] args) {
 
-	private static void processarCSV(File a1) throws IOException {
-		BufferedReader input = new BufferedReader(new FileReader(a1));
-		String linia;
-		String camp;
-		boolean bandera=true;
-		ArrayList<String> columna = new ArrayList<String>();
-		while ((linia = input.readLine()) != null) {
-			ArrayList<String> contingutFile = new ArrayList<String>();
-			int mida = linia.length();
-			int intAux = 0;
-			char cadenaChar[] = new char [mida];
-				cadenaChar = linia.toCharArray();
+        InterficieTONTA obj = new InterficieTONTA();
+        obj.run();
 
-			for (int i = 0; i < mida; i++) {
-				if (cadenaChar[i] == ',') {
-					camp = linia.substring(intAux, i);
-					intAux = i + 1;
-					if (bandera) {
-						columna.add(camp);
-						System.out.println(camp);
-					} else {
-						contingutFile.add(camp);
-						System.out.println(camp);
-					}
-				} 
-				else if (i==mida -1){
-					camp = linia.substring(intAux, i+1);
-					if(bandera){
-						columna.add(camp);
-						for(int x=0;x<columna.size();x++){
-							//modeloTabla.addColumn());
-							System.out.println(columna.get(x).toString());
-						}
-					}else {
-						contingutFile.add(camp);
-						//modeloTabla.addRow(contingutFile.toArray());
-						System.out.println(contingutFile.toArray().toString());
-					}
-					bandera = false;
-				}
-			}
+    }
 
-		}
-		input.close();
+    public void run() {
 
-	}
+        String csvFile = "fitxer_dades.csv";
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",\"";
+        ArrayList<Alumne> llistatA = new ArrayList<Alumne>();
+
+        try {
+
+            br = new BufferedReader(new FileReader(csvFile));
+
+            while ((line = br.readLine()) != null) {
+
+                String[] country = line.split(cvsSplitBy);
+                if (!country[0].contains("#")) {
+                    //System.out.println(Arrays.toString(country));
+
+                    if (country.length >= 4) {
+
+                        country[1] = country[1].replace("\"", "");
+                        country[2] = country[2].replace("\"", "");
+                        country[3] = country[3].replace("\"", "");
+
+                        Alumne a1 = new Alumne(country[0], tallarNom(country[1])[1], tallarNom(country[1])[0], country[2], tallarMateries(country[3]));
+                        llistatA.add(a1);
+                    }
+                }
+            }
+            System.out.println(llistatA.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("Done");
+    }
+
+    public String[] tallarNom(String cadenaNomCog) throws Exception {
+        String[] splits = cadenaNomCog.split(",");
+        return (splits);
+    }
+
+    public ArrayList<String> tallarMateries(String cadenaMateries)
+            throws Exception {
+
+        ArrayList<String> arrayL2 = new ArrayList<String>();
+        String[] splits = cadenaMateries.split(",");
+        int a = 0;
+        for (int i = 0; i < (splits.length); i++) {
+            arrayL2.add(splits[a]);
+            a++;
+        }
+        // arrayL2.add(splits[0]);
+        // arrayL2.add(splits[1]);
+        return (arrayL2);
+
+    }
 }
