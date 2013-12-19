@@ -178,7 +178,7 @@ public class MostrarDocument_old extends javax.swing.JFrame {
             }
         });
     }
-
+//hola
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JList jList1;
