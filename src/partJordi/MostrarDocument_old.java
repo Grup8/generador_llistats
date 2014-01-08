@@ -141,14 +141,7 @@ public class MostrarDocument_old extends javax.swing.JFrame {
         //"C:\\Users\\DAM\\Desktop\\fitxer_dades.csv"
         //System.out.println(" __"+str);
          // Lectura del fitxer
-           try {
-                 while((linia = br.readLine())!=null){
-                      a += linia + "\n";
-                     jTextArea1.setText(a);
-                     System.out.println(linia);
-                 }} catch (IOException ex) {
-                jTextArea1.append ("No s'ha trobat el document...");
-             }
+           
         }
         //( (DefaultListModel) jList1.getModel() ).addElement( jTextField1.getText() ); 
         DefaultListModel model1 = new DefaultListModel();
