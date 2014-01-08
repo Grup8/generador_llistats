@@ -8,14 +8,15 @@ package partJordi;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import partXicu.InterficieTONTA;
 
 /**
  *
@@ -123,6 +124,7 @@ public class MostrarDocument_old extends javax.swing.JFrame {
             fileCsv = triarArxiu.getSelectedFile();
             File arxiu = triarArxiu.getSelectedFile();
             jTextField1.setText(String.valueOf(arxiu));//Path del document
+            String mossstra = String.valueOf(arxiu);
              try {
                  //Llegir fitxer
                  fr = new FileReader (arxiu);
@@ -132,6 +134,10 @@ public class MostrarDocument_old extends javax.swing.JFrame {
          br = new BufferedReader(fr);
          String linia;
          String a = "";
+         //Files.toString(fileCsv, charset);
+        String str = (arxiu.getAbsolutePath().toString());
+        //"C:\\Users\\DAM\\Desktop\\fitxer_dades.csv"
+        //System.out.println(" __"+str);
          // Lectura del fitxer
            try {
                  while((linia = br.readLine())!=null){
@@ -142,6 +148,25 @@ public class MostrarDocument_old extends javax.swing.JFrame {
                 jTextArea1.append ("No s'ha trobat el document...");
              }
         }
+        //( (DefaultListModel) jList1.getModel() ).addElement( jTextField1.getText() ); 
+        DefaultListModel model1 = new DefaultListModel();
+        //InterficieTONTA.entregaLlista("C:\\Users\\DAM\\Desktop\\fitxer_dades.csv").size()
+        System.out.println("     >>>"+InterficieTONTA.entregaLlista("C:\\Users\\DAM\\Desktop\\fitxer_dades.csv"));
+        HashMap lista = new HashMap();
+        for(int i =0; i< InterficieTONTA.entregaLlista("C:\\Users\\DAM\\Desktop\\fitxer_dades.csv").size() ; i++)
+        {
+            lista.put(i,InterficieTONTA.entregaLlista("C:\\Users\\DAM\\Desktop\\fitxer_dades.csv").get(i).getCurs());
+        }
+        for(int i =0; i< lista.size(); i++)
+        {
+           // model1.addElement(i + " Aliual");
+           model1.addElement(lista.get(i));
+            
+            //InterficieTONTA.entregaLlista(fr.toString());
+          // System.out.println( (InterficieTONTA.entregaLlista(fr.toString()).get(i).getNom()));
+           
+        }
+        jList1.setModel(model1);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
