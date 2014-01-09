@@ -5,7 +5,7 @@
  */
 
 package partJordi;
-
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,6 +45,7 @@ public class MostrarDocument_old extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,6 +67,13 @@ public class MostrarDocument_old extends javax.swing.JFrame {
 
         jLabel2.setText("Selecciona les materies de les quals vols generar un llistes:");
 
+        jButton2.setText("Generar llistes");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -74,18 +82,19 @@ public class MostrarDocument_old extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)
-                        .addGap(79, 79, 79))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 207, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,8 +107,13 @@ public class MostrarDocument_old extends javax.swing.JFrame {
                     .addComponent(jButton1))
                 .addGap(22, 22, 22)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -146,11 +160,17 @@ public class MostrarDocument_old extends javax.swing.JFrame {
         //( (DefaultListModel) jList1.getModel() ).addElement( jTextField1.getText() ); 
         DefaultListModel model1 = new DefaultListModel();
         //InterficieTONTA.entregaLlista("C:\\Users\\DAM\\Desktop\\fitxer_dades.csv").size()
+        // El path no funciona si el passa per variable, i en canvi si es  posa la mateixa ruta escrita ,, si funciona);
         System.out.println("     >>>"+InterficieTONTA.entregaLlista("C:\\Users\\DAM\\Desktop\\fitxer_dades.csv"));
         HashMap lista = new HashMap();
+        ArrayList<String> a = new ArrayList<String>();
         for(int i =0; i< InterficieTONTA.entregaLlista("C:\\Users\\DAM\\Desktop\\fitxer_dades.csv").size() ; i++)
         {
-            lista.put(i,InterficieTONTA.entregaLlista("C:\\Users\\DAM\\Desktop\\fitxer_dades.csv").get(i).getCurs());
+            a =InterficieTONTA.entregaLlista("C:\\Users\\DAM\\Desktop\\fitxer_dades.csv").get(i).getAssignatures();
+            for(int z=0; i<InterficieTONTA.entregaLlista("C:\\Users\\DAM\\Desktop\\fitxer_dades.csv").get(i).getAssignatures().size();z++){
+                System.out.println(a.get(z));
+                lista.put(i,a.get(z));
+            }
         }
         for(int i =0; i< lista.size(); i++)
         {
@@ -163,6 +183,10 @@ public class MostrarDocument_old extends javax.swing.JFrame {
         }
         jList1.setModel(model1);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,6 +225,7 @@ public class MostrarDocument_old extends javax.swing.JFrame {
 //hola
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList jList1;
